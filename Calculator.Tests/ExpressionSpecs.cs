@@ -5,53 +5,54 @@ namespace Calculator.Tests
 {
   public class ExpressionSpecs
   {
-    [Fact]
-    public void PerformsBasicCalculations()
+    [Theory]
+    [InlineData(5 + 5, "5 + 5")]
+    [InlineData(5 + 5 + 5, "5 + 5 + 5")]
+    [InlineData(5 + (5 * 2), "5 + ( 5 * 2)")]
+    [InlineData(-5 + -5, "-5 + -5")]
+    [InlineData(-(5 + 5), "-(5 + 5)")]
+    [InlineData(1 + 2 / 3, "1 + 2 / 3")]
+    [InlineData(25, "5^2")]
+    public void PerformsBasicCalculations(double expectedResult, string expression)
     {
       var parser = new ExpressionParser();
-
-      Assert.Equal(5 + 5, parser.Execute("5 + 5"));
-      Assert.Equal(5 + 5 + 5, parser.Execute("5 + 5 + 5"));
-      Assert.Equal(5 + (5 * 2), parser.Execute("5 + ( 5 * 2)"));
-      Assert.Equal(-5 + -5, parser.Execute("-5 + -5"));
-      Assert.Equal(-(5 + 5), parser.Execute("-(5 + 5)"));
-      Assert.Equal(1 + 2 / 3, parser.Execute("1 + 2 / 3"));
-      Assert.Equal(Math.Pow(5,2), parser.Execute("5^2"));
+      Assert.Equal(expectedResult, parser.Execute(expression));
     }
 
-    [Fact]
-    public void CallsMathFunctions()
+    [Theory]
+    [InlineData(1024, "Pow(2,10)")]
+    [InlineData(12, "Max(10,12)")]
+    public void CallsMathFunctions(double expectedResult, string expression)
     {
       var parser = new ExpressionParser();
-
-      Assert.Equal(Math.Pow(2,10), parser.Execute("Pow(2,10)"));
-      Assert.Equal(Math.Pow(2, -10), parser.Execute("Pow(2, -10)"));
-      Assert.Equal(Math.Max(10, 7), parser.Execute("Max(  10, 7  )"));
+      Assert.Equal(expectedResult, parser.Execute(expression));
     }
 
-    [Fact]
-    public void FailsOnInvalidSyntax()
+    [Theory]
+    [InlineData("5 + Foo")]
+    [InlineData("(5 + 5")]
+    public void FailsOnInvalidSyntax(string badExpression)
     {
       var parser = new ExpressionParser();
-
-      Assert.Throws<Exception>(() => parser.Execute("5 + Foo"));
+      Assert.Throws<Exception>(() => parser.Execute(badExpression));
     }
 
-    [Fact]
-    public void SupportsMathConstants()
+    [Theory]
+    [InlineData(Math.PI, "pi")]
+    [InlineData(Math.E, "e")]
+    public void SupportsMathConstants(double expectedResult, string expression)
     {
       var parser = new ExpressionParser();
-
-      Assert.Equal(2 * Math.PI, parser.Execute("2*pi"));
-      Assert.Equal(Math.E, parser.Execute("e"));
+      Assert.Equal(expectedResult, parser.Execute(expression));
     }
 
-    [Fact]
-    public void SupportsMathSymbols()
+    [Theory]
+    [InlineData((2 * 2) / 3.0, "(2 × 2) ÷ 3")]
+    [InlineData(2 * 2 * 3, "2 × 2 * 3")]
+    public void SupportsMathSymbols(double expectedResult, string expression)
     {
       var parser = new ExpressionParser();
-
-      Assert.Equal((2 * 2) / 3.0, parser.Execute("(2 × 2) ÷ 3"));
+      Assert.Equal(expectedResult, parser.Execute(expression));
     }
   }
 }

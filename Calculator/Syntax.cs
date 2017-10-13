@@ -7,7 +7,7 @@ namespace Calculator
 {
   internal class Syntax
   {
-    public static Parser<Expression<Func<double>>> ParseLambda =>
+    public static readonly Parser<Expression<Func<double>>> ParseLambda =
        from body in Parse.Ref(() => Expr).End()
        select Expression.Lambda<Func<double>>(body);
 
