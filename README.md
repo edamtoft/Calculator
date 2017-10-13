@@ -1,6 +1,6 @@
 # Calculator
 
-A simple sample project using [Sprache](https://github.com/sprache/Sprache) to parse mathmatical expressions to c# expression trees, based heavily on [This Sample]( https://github.com/sprache/Sprache/blob/master/samples/LinqyCalculator/ExpressionParser.cs). The parser supports basic mathmatical operators, order of operations, and Math.* functions.
+A simple sample project using [Sprache](https://github.com/sprache/Sprache) to parse mathmatical expressions to c# expression trees, based heavily on [This Sample]( https://github.com/sprache/Sprache/blob/master/samples/LinqyCalculator/ExpressionParser.cs). The parser supports basic mathmatical operators, order of operations, and Math.* functions. The actual syntax is defined [here](https://github.com/edamtoft/Calculator/blob/master/Calculator/Syntax.cs)
 
 ## Usage
 
